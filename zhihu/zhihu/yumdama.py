@@ -12,16 +12,16 @@ import pdb
 # 3. 使用添加的软件ID和密钥进行开发，享受丰厚分成
 
 # 用户名
-username = 'alextan'
+username = ''
 
 # 密码
-password = 'feifengwind'
+password = ''
 
 # 软件ＩＤ，开发者分成必要参数。登录开发者后台【我的软件】获得！
-appid = 3403
+appid = 
 
 # 软件密钥，开发者分成必要参数。登录开发者后台【我的软件】获得！
-appkey = '4092b481007a41b6d0501349318d33e7'
+appkey = ''
 
 # 图片文件
 filename = 'captcha.png'
