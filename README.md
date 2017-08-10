@@ -9,7 +9,7 @@
 ## 原文博客：[ZhihuSpider](http://blog.csdn.net/AlexTan_/article/details/77057068)
 ## 前言：
 
-*在这里特别鸣谢: 九茶*  <http://blog.csdn.net/bone_ace>   <Github: https://github.com/LiuXingMing >
+*在这里特别鸣谢: 九茶*  <http://blog.csdn.net/bone_ace>   Github: <https://github.com/LiuXingMing>
 
 学了爬虫差不多快一年了，然而由于项目原因，这还是第一次发爬虫的博客，在学习的过程中，受益最大的就是看了九茶的微博爬虫吧，所以在这里特别鸣谢。 他的代码里涉及了很多：自动化技术、模拟登录、分布式、redis、mongodb等都有涉及，而且还讲了代码的可复用性，深受启发。 不过，对于爬虫的知识块儿来讲，还没涉及抓包（因为个人觉得，如果只抓取json数据的话，会比抓取普通网页速度来得快得多）、以及自动更换IP技术，于是在这里写一个知乎爬虫的博客，这篇博客里，除了九茶的微博爬虫所涉及的知识以外，还有抓包、以及更换ip技术。
 
