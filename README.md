@@ -20,7 +20,7 @@
 1. Ubuntu16.04
 2. Python环境是ubuntu自带的python3.5.2
 3. 需要安装的软件Redis, MongoDB, Phantomjs;
-4. 需要安装的python模块：scrapy, scrapy-redis, selenium
+4. 需要安装的python模块：scrapy, scrapy-redis, selenium, redis
 5. 电脑是用的小米笔记本4999元的那个版本，如果是台式机的话速度应该会更快。（ps:如果想更快，可以加大setting.py 中的 `CONCURRENT_REQUESTS`的值，这个值默认是16，可以调大，直到CPU使用率达到80-90%，相信速度会快很多，绝不仅仅是一分钟6000多条。当然也可以在单机上多进程爬取）
 
 
