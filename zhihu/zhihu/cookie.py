@@ -48,38 +48,40 @@ def getCookie(account,password,way):
         loginDIV.find_element_by_name('account').send_keys(account)
         loginDIV.find_element_by_name('password').send_keys(password)
         time.sleep(1)
-        browser.save_screenshot("zhihu.png")
-        if loginDIV.find_element_by_class_name('captcha-module').get_attribute('style') != '':
-            if METHOD == 0:
-                code_txt = input("请查看路径下新生成的zhihu.png，然后输入验证码:")
-            else:
-                img = loginDIV.find_element_by_class_name('captcha')
-                x = img.location["x"]
-                y = img.location["y"]
-                from PIL import Image
-                im = Image.open("zhihu.png")
-                im.crop((x, y, 85 + x, y + 30)).save("captcha.png")
-                #pdb.set_trace()
-                code_txt = identify()
-            loginDIV.find_element_by_name('captcha').send_keys(code_txt)
-        loginDIV.find_element_by_class_name('zg-btn-blue').click()
-        time.sleep(3)
-        try:
-            loginDIV.find_element_by_class_name('error')
-            logger.warning("验证码或账号密码错误 %s!" % account)
-        except:
+        while True:
+            browser.save_screenshot("zhihu.png")
+            if loginDIV.find_element_by_class_name('captcha-module').get_attribute('style') != '':
+                if METHOD == 0:
+                    code_txt = input("请查看路径下新生成的zhihu.png，然后输入验证码:")
+                else:
+                    img = loginDIV.find_element_by_class_name('captcha')
+                    x = img.location["x"]
+                    y = img.location["y"]
+                    from PIL import Image
+                    im = Image.open("zhihu.png")
+                    im.crop((x, y, 85 + x, y + 30)).save("captcha.png")
+                    #pdb.set_trace()
+                    code_txt = identify()
+                loginDIV.find_element_by_name('captcha').send_keys(code_txt)
+            loginDIV.find_element_by_class_name('zg-btn-blue').click()
+            time.sleep(3)
             try:
-                #pdb.set_trace()
-                browser.find_element_by_class_name('top-nav-profile')
-                cookie = {}
-                for elem in browser.get_cookies():
-                    cookie[elem["name"]] = elem["value"]
-                logger.warning("Get Cookie Success!( Account:%s )" % account)
-                #pdb.set_trace()
-                return json.dumps(cookie)
-            except Exception:
-                logger.warning("Failed %s!" % account)
-                return ""
+                loginDIV.find_element_by_class_name('error')
+                logger.warning("验证码或账号密码错误 %s!" % account)
+            except:
+                break
+        try:
+            #pdb.set_trace()
+            browser.find_element_by_class_name('top-nav-profile')
+            cookie = {}
+            for elem in browser.get_cookies():
+                cookie[elem["name"]] = elem["value"]
+            logger.warning("Get Cookie Success!( Account:%s )" % account)
+            #pdb.set_trace()
+            return json.dumps(cookie)
+        except Exception:
+            logger.warning("Failed %s!" % account)
+            return ""
     except Exception:
         logger.warning("Failed %s!" % account)
         return ""
