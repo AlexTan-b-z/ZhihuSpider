@@ -14,7 +14,7 @@ IPPOOLNUM=20 #一次性从网页获取的IP数量
 
 def GetIPPOOLS(num):
     #大象代理买的ip,5元20000个，每十个差不多有一个能用
-    IPPOOL=urllib.request.urlopen("这里填写你购买的大象ip的api链接&num="+str(num)+"&operator=1&filter=on&protocol=http&category=2&delay=1").read().decode("utf-8","ignore").split('\r\n')
+    IPPOOL=urllib.request.urlopen("http://tpv.daxiangdaili.com/ip/?tid=559480480576119&num="+str(num)+"&operator=1&filter=on&protocol=http&category=2&delay=1").read().decode("utf-8","ignore").split('\r\n')
     '''
     #自己获取的ip
     IPPOOLS1=urllib.request.urlopen("http://127.0.0.1:8000/?types=0&count=20&country=%E5%9B%BD%E5%86%85").read().decode("utf-8",'ignore')

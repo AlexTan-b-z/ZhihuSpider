@@ -26,9 +26,9 @@ USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 
 
 #分布式配置
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+SCHEDULER = "zhihu.scrapy_redis.scheduler.Scheduler"
 SCHEDULER_PERSIST = True
+DUPEFILTER_CLASS = "zhihu.scrapy_redis.dupefilter.RFPDupeFilter"
 
 
 # 种子队列的信息
@@ -43,7 +43,7 @@ FILTER_DB = 0
 
 
 MONGO_URI = 'mongodb://127.0.0.1:27017/'
-MONGO_DATABASE = 'zhihu'
+MONGO_DATABASE = 'zhihu3'
 
 
 DOWNLOADER_MIDDLEWARES = {
@@ -54,7 +54,6 @@ DOWNLOADER_MIDDLEWARES = {
 
 
 ITEM_PIPELINES = {
-    'scrapy_redis.pipelines.RedisPipeline': 300,
     'zhihu.pipelines.ZhihuPipeline': 301,
 }
 

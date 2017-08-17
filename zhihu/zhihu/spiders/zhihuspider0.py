@@ -5,7 +5,7 @@ import pdb
 import json
 from scrapy.http import Request
 from ..items import ZhihuItem,RelationItem,AnswerItem,QuestionItem,ArticleItem
-from scrapy_redis.spiders import RedisSpider
+from ..scrapy_redis.spiders import RedisSpider
 
 # ------------------------------------------
 #   版本：1.0
@@ -93,7 +93,15 @@ class Zhihuspider0Spider(RedisSpider):
         relations_id = []
         for one in dict_result['data']:
             relations_id.append(one['url_token'])
-        response.meta['item']['relations_id'] += relations_id
+        response.meta['item']['relations_id'] = relations_id
+        if response.meta['offset'] == 0:
+            response.meta['item']['relation_type'] = response.meta['relation_type']
+        else:
+            response.meta['item']['relation_type'] = 'next'
+        #pdb.set_trace()
+        yield response.meta['item']
+        for one in response.meta['item']['relations_id']:
+                yield Request('https://www.zhihu.com/api/v4/members/'+one+'?include=locations,employments,industry_category,gender,educations,business,follower_count,following_count,description,badge[?(type=best_answerer)].topics',meta={'user_id':one},callback=self.parse)
         #pdb.set_trace()
         if dict_result['paging']['is_end'] == 0:
             #pdb.set_trace()
@@ -101,11 +109,6 @@ class Zhihuspider0Spider(RedisSpider):
             next_page = re.findall('(.*offset=)\d+',response.url)[0]
             #pdb.set_trace()
             yield Request(next_page + str(offset),callback=self.parse_relation,meta={'item':response.meta['item'],'offset':offset,'relation_type':response.meta['relation_type']})
-        else:
-            for one in response.meta['item']['relations_id']:
-                yield Request('https://www.zhihu.com/api/v4/members/'+one+'?include=locations,employments,industry_category,gender,educations,business,follower_count,following_count,description,badge[?(type=best_answerer)].topics',meta={'user_id':one},callback=self.parse)
-            response.meta['item']['relation_type'] = response.meta['relation_type']
-            yield response.meta['item']
 
     def parse_answer(self,response):
         json_result = str(response.body,encoding="utf8").replace('false','0').replace('true','1')

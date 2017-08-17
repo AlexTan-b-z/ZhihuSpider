@@ -1,14 +1,24 @@
-#知乎爬虫（scrapy默认配置下单机1小时可爬取60多万条数据）
-*版本：1.0*
-*作者: AlexTan*
-<CSDN:   http://blog.csdn.net/alextan_>
-<e-mail: alextanbz@gmail.com>
+# 知乎爬虫(scrapy默认配置下单机1小时可爬取60多万条数据)  
+***
+*版本*：1.0  
+*作者*: AlexTan  
+<CSDN   :   http://blog.csdn.net/alextan_ >  
+<E-Mail : alextanbz@gmail.com >  
+***
+
+## 原文博客：[ZhihuSpider](http://blog.csdn.net/AlexTan_/article/details/77057068)
+
+
+
+## 更新日志：
+
+* 2017.08.17: v2.0版本 对scrapy_redis进行优化，修改了scrapy-redis的去重机制（加了布隆过滤器）。更新原因： v1.0版本运行两到三天就会把内存（16G的服务器）占满。
 
 
 
 ## 前言：
 
-*在这里特别鸣谢: 九茶*  <http://blog.csdn.net/bone_ace>   <Github: https://github.com/LiuXingMing> 
+*在这里特别鸣谢: 九茶*  <http://blog.csdn.net/bone_ace>   Github: <https://github.com/LiuXingMing>
 
 学了爬虫差不多快一年了，然而由于项目原因，这还是第一次发爬虫的博客，在学习的过程中，受益最大的就是看了九茶的微博爬虫吧，所以在这里特别鸣谢。 他的代码里涉及了很多：自动化技术、模拟登录、分布式、redis、mongodb等都有涉及，而且还讲了代码的可复用性，深受启发。 不过，对于爬虫的知识块儿来讲，还没涉及抓包（因为个人觉得，如果只抓取json数据的话，会比抓取普通网页速度来得快得多）、以及自动更换IP技术，于是在这里写一个知乎爬虫的博客，这篇博客里，除了九茶的微博爬虫所涉及的知识以外，还有抓包、以及更换ip技术。
 
@@ -19,7 +29,7 @@
 1. Ubuntu16.04
 2. Python环境是ubuntu自带的python3.5.2
 3. 需要安装的软件Redis, MongoDB, Phantomjs;
-4. 需要安装的python模块：scrapy, scrapy-redis, selenium
+4. 需要安装的python模块：scrapy, scrapy-redis, selenium, redis
 5. 电脑是用的小米笔记本4999元的那个版本，如果是台式机的话速度应该会更快。（ps:如果想更快，可以加大setting.py 中的 `CONCURRENT_REQUESTS`的值，这个值默认是16，可以调大，直到CPU使用率达到80-90%，相信速度会快很多，绝不仅仅是一分钟6000多条。当然也可以在单机上多进程爬取）
 
 
@@ -141,6 +151,5 @@
 ***
 
 最后，欢迎大家提出问题，共同学习！！！
-
 
 
