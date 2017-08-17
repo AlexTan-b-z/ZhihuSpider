@@ -67,12 +67,14 @@ class ProxyMiddleware(RetryMiddleware):
                 #pdb.set_trace()
         else:
             self.TIMES += 1
-        request.meta["proxy"] = self.IP
+        if self.IP is not '':
+            request.meta["proxy"] = self.IP
             #pdb.set_trace()
 
     def process_response(self,request,response,spider):
         #pdb.set_trace()
         if response.status in [400,403,404,429,500,503,504]:
+            self.IP = 10
             logger.error("%s! 错误..." % response.status)
             #pdb.set_trace()
             try:
@@ -86,6 +88,7 @@ class ProxyMiddleware(RetryMiddleware):
 
     def process_exception(self, request, exception, spider):
         #pdb.set_trace()
+        self.IP = 10
         try:
             removeIPPOOLS(self.rconn,request.meta['proxy'].replace('http://',''))
         except:

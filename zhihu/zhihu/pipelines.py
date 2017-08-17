@@ -49,7 +49,10 @@ class ZhihuPipeline(object):
         self.db.UserInfo.insert(dict(item))
 
     def _process_relation_item(self,item):
+<<<<<<< HEAD
         #pdb.set_trace()
+=======
+>>>>>>> 2dbf8198ae9fed683fa51370b499f68d4f35d25a
         if item['relation_type'] == 'next':
             for one in item['relations_id']:
                 self.db.Relation.update({'user_id':item['user_id']},{"$push":{'relations_id':one}})

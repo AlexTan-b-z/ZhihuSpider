@@ -5,6 +5,7 @@
 <CSDN   :   http://blog.csdn.net/alextan_ >  
 <E-Mail : alextanbz@gmail.com >  
 ***
+<<<<<<< HEAD
 
 ## 原文博客：[ZhihuSpider](http://blog.csdn.net/AlexTan_/article/details/77057068)
 
@@ -15,7 +16,10 @@
 * 2017.08.17: v2.0版本 对scrapy_redis进行优化，修改了scrapy-redis的去重机制（加了布隆过滤器）。更新原因： v1.0版本运行两到三天就会把内存（16G的服务器）占满。
 
 
+=======
+>>>>>>> 2dbf8198ae9fed683fa51370b499f68d4f35d25a
 
+## 原文博客：[ZhihuSpider](http://blog.csdn.net/AlexTan_/article/details/77057068)
 ## 前言：
 
 *在这里特别鸣谢: 九茶*  <http://blog.csdn.net/bone_ace>   Github: <https://github.com/LiuXingMing>
