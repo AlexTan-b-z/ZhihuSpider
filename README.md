@@ -7,6 +7,7 @@
 ***
 
 ## 原文博客：[ZhihuSpider](http://blog.csdn.net/AlexTan_/article/details/77057068)
+### v2.0版本已加上布隆过滤器，有想研究的朋友们请手动切换到2.0版本（稳定性正在测试）
 ## 前言：
 
 *在这里特别鸣谢: 九茶*  <http://blog.csdn.net/bone_ace>   Github: <https://github.com/LiuXingMing>
