@@ -140,44 +140,6 @@ class LifoQueue(Base):
         if data:
             return self._decode_request(data)
 
-class SpiderSimpleQueue(Base):
-    """ url + callback """
-
-    def __len__(self):
-        """Return the length of the queue"""
-        return self.server.llen(self.key)
-
-    def push(self, request):
-        """Push a request"""
-        self.server.lpush(self.key, request.url[16:])
-
-    def pop(self, timeout=0):
-        """Pop a request"""
-        if timeout > 0:
-            url = self.server.brpop(self.key, timeout=timeout)
-            if isinstance(url, tuple):
-                url = url[1]
-        else:
-            url = self.server.rpop(self.key)
-        if url:
-            try:
-                if "/followers" in url or "/followees" in url:
-                    cb = getattr(self.spider, "parse_relation")
-                elif "/answers" in url:
-                    cb = getattr(self.spider, "parse_answers")
-                elif "/asks" in url:
-                    cb = getattr(self.spider, "parse_question")
-                elif "/articles" in url:
-                    cb = getattr(self.spider, "parse_articles")
-                elif "/include=locations" in url:
-                    cb = getattr(self.spider, "parse")
-                else:
-                    raise ValueError("Method not found in: %s( URL:%s )" % (self.spider, url))
-                return Request(url="https://weibo.cn%s" % url, callback=cb)
-            except AttributeError:
-                raise ValueError("Method not found in: %s( URL:%s )" % (self.spider, url))
-
-
 # TODO: Deprecate the use of these names.
 SpiderQueue = FifoQueue
 SpiderStack = LifoQueue
