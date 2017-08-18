@@ -54,8 +54,7 @@ class ProxyMiddleware(RetryMiddleware):
             baseIP=random.choice(self.rconn.keys('IP:*'))
             ip=str(baseIP,'utf-8').replace('IP:','')
             try:
-                IP=ip.split(':')[0]
-                PORT=ip.split(':')[1]
+                IP, PORT=ip.split(':')
                 telnetlib.Telnet(IP,port=PORT,timeout=2) #测试ip是否可以用
             except:
                 removeIPPOOLS(self.rconn,ip)
@@ -67,7 +66,7 @@ class ProxyMiddleware(RetryMiddleware):
                 #pdb.set_trace()
         else:
             self.TIMES += 1
-        if self.IP is not '':
+        if self.IP:
             request.meta["proxy"] = self.IP
             #pdb.set_trace()
 
