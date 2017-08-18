@@ -1,9 +1,10 @@
 # 知乎爬虫(scrapy默认配置下单机1小时可爬取60多万条数据)  
 ***
-*版本*：1.0  
+*版本*：2.0  
 *作者*: AlexTan  
-<CSDN   :   http://blog.csdn.net/alextan_ >  
-<E-Mail : alextanbz@gmail.com >  
+
+*CSDN*: [AlexTan_](http://blog.csdn.net/alextan_)  
+*E-Mail* : <alextanbz@gmail.com> 
 ***
 
 ## 原文博客：[ZhihuSpider](http://blog.csdn.net/AlexTan_/article/details/77057068)
