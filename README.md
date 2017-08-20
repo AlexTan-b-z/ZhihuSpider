@@ -15,6 +15,13 @@
 
 * 2017.08.17: v2.0版本 对scrapy_redis进行优化，修改了scrapy-redis的去重机制（加了布隆过滤器）。更新原因： v1.0版本运行两到三天就会把内存（16G的服务器）占满。
 
+## 关于redis:
+如果要持久运行，建议修改一下redis.conf文件，ubuntu默认在 `/etc/redis/redis.conf` 下:
+1. 把 maxmemory 设置成你内存的 3/4
+2. 把 maxmemory-policy 设置成 allkeys-lru
+
+### 最后建议多弄几个账号运行，目测78个就足够了。
+
 
 ## 原文博客：[ZhihuSpider](http://blog.csdn.net/AlexTan_/article/details/77057068)
 
