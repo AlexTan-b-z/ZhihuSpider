@@ -1,5 +1,5 @@
 # encoding=utf-8
-import http.client, mimetypes, urllib.parse, json, time
+import http.client, mimetypes, urllib, json, time, requests
 import pdb
 
 ######################################################################
@@ -18,11 +18,7 @@ username = ''
 password = ''
 
 # 软件ＩＤ，开发者分成必要参数。登录开发者后台【我的软件】获得！
-<<<<<<< HEAD
-appid = 1111
-=======
-appid = 
->>>>>>> 2dbf8198ae9fed683fa51370b499f68d4f35d25a
+appid = 0000
 
 # 软件密钥，开发者分成必要参数。登录开发者后台【我的软件】获得！
 appkey = ''
@@ -31,7 +27,7 @@ appkey = ''
 filename = 'captcha.png'
 
 # 验证码类型，# 例：1004表示4位字母数字，不同类型收费不同。请准确填写，否则影响识别率。在此查询所有类型 http://www.yundama.com/price.html
-codetype = 
+codetype = 1004
 
 # 超时时间，秒
 timeout = 60
@@ -39,31 +35,27 @@ timeout = 60
 
 ######################################################################
 
-class YDMHttp:
-    apiurl = 'http://api.yundama.net:5678/api.php'
+class YDMHttp():
 
+    apiurl = 'http://api.yundama.com/api.php'
     username = ''
     password = ''
     appid = ''
     appkey = ''
 
     def __init__(self, username, password, appid, appkey):
-        self.username = username
+        self.username = username  
         self.password = password
         self.appid = str(appid)
         self.appkey = appkey
 
     def request(self, fields, files=[]):
-        try:
-            response = post_url(self.apiurl, fields, files)
-            response = json.loads(response)
-        except Exception as e:
-            response = None
+        response = self.post_url(self.apiurl, fields, files)
+        response = json.loads(response)
         return response
-
+    
     def balance(self):
-        data = {'method': 'balance', 'username': self.username, 'password': self.password, 'appid': self.appid,
-                'appkey': self.appkey}
+        data = {'method': 'balance', 'username': self.username, 'password': self.password, 'appid': self.appid, 'appkey': self.appkey}
         response = self.request(data)
         if (response):
             if (response['ret'] and response['ret'] < 0):
@@ -72,10 +64,9 @@ class YDMHttp:
                 return response['balance']
         else:
             return -9001
-
+    
     def login(self):
-        data = {'method': 'login', 'username': self.username, 'password': self.password, 'appid': self.appid,
-                'appkey': self.appkey}
+        data = {'method': 'login', 'username': self.username, 'password': self.password, 'appid': self.appid, 'appkey': self.appkey}
         response = self.request(data)
         if (response):
             if (response['ret'] and response['ret'] < 0):
@@ -86,8 +77,7 @@ class YDMHttp:
             return -9001
 
     def upload(self, filename, codetype, timeout):
-        data = {'method': 'upload', 'username': self.username, 'password': self.password, 'appid': self.appid,
-                'appkey': self.appkey, 'codetype': str(codetype), 'timeout': str(timeout)}
+        data = {'method': 'upload', 'username': self.username, 'password': self.password, 'appid': self.appid, 'appkey': self.appkey, 'codetype': str(codetype), 'timeout': str(timeout)}
         file = {'file': filename}
         response = self.request(data, file)
         if (response):
@@ -99,8 +89,7 @@ class YDMHttp:
             return -9001
 
     def result(self, cid):
-        data = {'method': 'result', 'username': self.username, 'password': self.password, 'appid': self.appid,
-                'appkey': self.appkey, 'cid': str(cid)}
+        data = {'method': 'result', 'username': self.username, 'password': self.password, 'appid': self.appid, 'appkey': self.appkey, 'cid': str(cid)}
         response = self.request(data)
         return response and response['text'] or ''
 
@@ -117,55 +106,11 @@ class YDMHttp:
         else:
             return cid, ''
 
-
-######################################################################
-
-def post_url(url, fields, files=[]):
-    urlparts = urllib.parse.urlsplit(url)
-    return post_multipart(urlparts[1], urlparts[2], fields, files)
-
-
-def post_multipart(host, selector, fields, files):
-    content_type, body = encode_multipart_formdata(fields, files)
-    h = http.client.HTTP(host)
-    h.putrequest('POST', selector)
-    h.putheader('Host', host)
-    h.putheader('Content-Type', content_type)
-    h.putheader('Content-Length', str(len(body)))
-    h.endheaders()
-    h.send(body)
-    errcode, errmsg, headers = h.getreply()
-    return h.file.read()
-
-
-def encode_multipart_formdata(fields, files=[]):
-    BOUNDARY = 'WebKitFormBoundaryJKrptX8yPbuAJLBQ'
-    CRLF = '\r\n'
-    L = []
-    for field in fields:
-        key = field
-        value = fields[key]
-        L.append('--' + BOUNDARY)
-        L.append('Content-Disposition: form-data; name="%s"' % key)
-        L.append('')
-        L.append(value)
-    for field in files:
-        key = field
-        filepath = files[key]
-        L.append('--' + BOUNDARY)
-        L.append('Content-Disposition: form-data; name="%s"; filename="%s"' % (key, filepath))
-        L.append('Content-Type: %s' % get_content_type(filepath))
-        L.append('')
-        L.append(open(filepath, 'rb').read())
-    L.append('--' + BOUNDARY + '--')
-    L.append('')
-    body = CRLF.join(L)
-    content_type = 'multipart/form-data; boundary=%s' % BOUNDARY
-    return content_type, body
-
-
-def get_content_type(filename):
-    return mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+    def post_url(self, url, fields, files=[]):
+        for key in files:
+            files[key] = open(files[key], 'rb');
+        res = requests.post(url, files=files, data=fields)
+        return res.text
 
 
 ######################################################################
@@ -175,6 +120,7 @@ def identify():
     if (username == 'username'):
         print ('请设置好相关参数再测试')
     else:
+        #pdb.set_trace()
         # 初始化
         yundama = YDMHttp(username, password, appid, appkey)
 
@@ -188,6 +134,5 @@ def identify():
 
         # 开始识别，图片路径，验证码类型ID，超时时间（秒），识别结果
         cid, result = yundama.decode(filename, codetype, timeout)
-        pdb.set_trace()
         # print 'cid: %s, result: %s' % (cid, result)
         return result
