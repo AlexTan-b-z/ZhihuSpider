@@ -9,6 +9,7 @@
 
 ## 原文博客：[ZhihuSpider](http://blog.csdn.net/AlexTan_/article/details/77057068)
 ### v2.0版本已加上布隆过滤器，建议切换到2.0版本（已测试完毕）
+### V-docker版本已上传，其他系统的朋友或者觉得装环境麻烦的朋友可以切换到docker版本
 ## 前言：
 
 *在这里特别鸣谢: 九茶*  <http://blog.csdn.net/bone_ace>   Github: <https://github.com/LiuXingMing>
@@ -34,7 +35,7 @@
 2. 运行爬虫 ： `scrapy crawl zhishuspider` 即可
 3. 分布式扩展：把代码考到新一台机器上，只需要把setting.py里的`REDIS_HOST`和`FILTER_HOST`改成主机的地址就好，其他的根据自己的具体情况修改。然后运行即可。
 4. 提示：如果你的账号数量不够多，建议把`DOWNLOAD_DELAY`开启（即把代码里注释的那四行取消注释掉），数值多少根据自己具体情况更改。
-#### docker版本（不限系统版本，建议在root用户下进行，代码已上传到github，可以自行切换到zhihu-docker版本查看）：
+#### docker版本（不限系统版本，建议在root用户下进行，代码已上传到github，可以自行切换到V-docker版本查看）：
 1.  `docker pull alextanbz/zhihuspider`  下载镜像
 
 2.  `docker run -idt alextanbz/zhihuspider` 建立一个容器
