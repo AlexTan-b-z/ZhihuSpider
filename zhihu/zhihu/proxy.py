@@ -1,6 +1,7 @@
 # encoding=utf-8
 import telnetlib
 import urllib
+import logging
 
 # ------------------------------------------
 #   版本：1.0
@@ -9,12 +10,13 @@ import urllib
 #   <CSDN:   http://blog.csdn.net/alextan_>  
 #   <e-mail: alextanbz@gmail.com>
 # ------------------------------------------
+logger = logging.getLogger(__name__)
 
 IPPOOLNUM=20 #一次性从网页获取的IP数量
 
 def GetIPPOOLS(num):
     #大象代理买的ip,5元20000个，每十个差不多有一个能用
-    IPPOOL=urllib.request.urlopen("这里填写你购买的大象ip的api链接&num="+str(num)+"&operator=1&filter=on&protocol=http&category=2&delay=1").read().decode("utf-8","ignore").split('\r\n')
+    IPPOOL=urllib.request.urlopen("这里填写你购买的大象ip的api链接&num="+str(num)+"&protocol=http&delay=1&&longlife=888").read().decode("utf-8","ignore").split('\r\n')
     '''
     #自己获取的ip
     IPPOOLS1=urllib.request.urlopen("http://127.0.0.1:8000/?types=0&count=20&country=%E5%9B%BD%E5%86%85").read().decode("utf-8",'ignore')
@@ -33,18 +35,21 @@ def initIPPOOLS(rconn):
             try:
                 ip=ipall.split(':')[0]
                 port=ipall.split(':')[1]
-                telnetlib.Telnet(ip,port=port,timeout=2)
+                telnetlib.Telnet(ip,port=port,timeout=2) #检验代理ip是否有效
             except:
-                print('ip无效！')
+                logger.warning("The ip is not available !( IP:%s )" % ipall)
             else:
-                print('ip:%s 有效，正在存入数据库...'%(ipall))
+                logger.warning("Get ip Success!( IP:%s )" % ipall)
                 rconn.set("IP:%s"%(ipall),ipall)
     else:
-        print('当前数据库中的IP数量为:'+str(ipNum))
+        logger.warning("The number of  the IP is %s!" % str(ipNum))
 
 
 def removeIPPOOLS(rconn,ip):
-    print('IP:%s 已失效,正在删除...'%(ip))
-    rconn.delete('IP:'+ip)
+    logger.error("IP:%s not available ! System is deleting" % ip)
+    try:
+        rconn.delete('IP:'+ip)
+    except:
+        pass
     ipNum=len(rconn.keys('IP*'))
-    print('当前数据库中剩下的IP数量为:'+str(ipNum))
+    logger.warning("The number of  the IP is %s!" % str(ipNum))

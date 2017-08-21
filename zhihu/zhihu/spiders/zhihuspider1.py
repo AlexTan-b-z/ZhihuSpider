@@ -19,6 +19,7 @@ from scrapy_redis.spiders import RedisSpider
 
 
 #zhihuspider1是模拟浏览器爬（速度慢,不建议，仅供学习） zhihuspider0抓包爬（速度快）
+#不建议使用这个，这个仅供学习用
 class ZhihuspiderSpider(RedisSpider):
 #class ZhihuspiderSpider(scrapy.Spider):
     name = "zhihuspider1"

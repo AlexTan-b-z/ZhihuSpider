@@ -7,7 +7,6 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import logging
 from .yumdama import identify
-
 # ------------------------------------------
 #   版本：1.0
 #   日期：2017-8-06
