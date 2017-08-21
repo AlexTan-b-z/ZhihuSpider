@@ -29,15 +29,32 @@
 
 ## 使用说明：
 
+#### 环境已经安装好的情况下:
 1. 打开cookie.py,填入你的知乎账号密码
 2. 运行爬虫 ： `scrapy crawl zhishuspider` 即可
 3. 分布式扩展：把代码考到新一台机器上，只需要把setting.py里的`REDIS_HOST`和`FILTER_HOST`改成主机的地址就好，其他的根据自己的具体情况修改。然后运行即可。
 4. 提示：如果你的账号数量不够多，建议把`DOWNLOAD_DELAY`开启（即把代码里注释的那四行取消注释掉），数值多少根据自己具体情况更改。
+#### docker版本（不限系统版本，建议在root用户下进行，代码已上传到github，可以自行切换到zhihu-docker版本查看）：
+1.  `docker pull alextanbz/zhihuspider`  下载镜像
+
+2.  `docker run -idt alextanbz/zhihuspider` 建立一个容器
+
+3. `docker ps`  查看这个正在运行的容器id
+
+4. `docker exec it container_id(容器id) bash` 进入容器，然后在cookie.py文件中填入你的知乎账号密码，在yundama.py中填入相应参数；如果数据库在其他主机上，可以进入setting.py修改一下redis和mongodb对应的ip，如果数据库在本机上则不需要。
+
+5. `docker commit container_id(容器id) myzhihuspider` 保存修改
+
+6. 最后运行`docker run myzhihuspider && scrapy crawl zhihuspider` 就可以了。 如果数据库是安装在主机上的话运行: `docker run --net=host  myzhihuspider && scrapy crawl zhihuspider` 
+
+   **注意**: --net=host会把主机的端口暴露给容器，实际应用不建议使用此方法。实际应用建议 一下方法任选一种： 
+
+   1. 使用docker安装数据库建立两个新的容器(当然也可能不止两个)，然后再通过Link在容器之间建立连接
+   2. 或者有专门做存储的服务器，直接进入setting.py改对应的ip就可以了。
 
 
 
 ## 代码说明：
-
 1. 爬虫基于scrapy+redis架构进行开发、优化。
 2. 爬虫支持断点续爬。
 3. 非常简易地，便可实现分布式扩展。
