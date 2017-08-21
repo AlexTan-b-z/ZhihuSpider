@@ -57,11 +57,12 @@ class ProxyMiddleware(RetryMiddleware):
                 IP, PORT=ip.split(':')
                 telnetlib.Telnet(IP,port=PORT,timeout=2) #测试ip是否可以用
             except:
+                logger.warning("The ip is not available !( IP:%s )" % ip)
                 removeIPPOOLS(self.rconn,ip)
             else:
                 #pdb.set_trace()
                 self.IP = "http://" + ip
-                print("当前使用的代理IP是："+self.IP)
+                logger.warning("The current IP is %s!" % self.IP)
                 self.TIMES = 0
                 #pdb.set_trace()
         else:
@@ -74,7 +75,7 @@ class ProxyMiddleware(RetryMiddleware):
         #pdb.set_trace()
         if response.status in [400,403,404,429,500,503,504]:
             self.IP = 10
-            logger.error("%s! 错误..." % response.status)
+            logger.error("%s! error..." % response.status)
             #pdb.set_trace()
             try:
                 removeIPPOOLS(self.rconn,request.meta['proxy'].replace('http://',''))
