@@ -6,6 +6,7 @@ import random
 import redis
 import json
 import os
+import threading
 import pdb
 from scrapy import signals
 from .user_agents_pc import agents
@@ -39,7 +40,7 @@ class ProxyMiddleware(RetryMiddleware):
         self.TIMES = 10
         RetryMiddleware.__init__(self, settings)
         self.rconn = settings.get("RCONN", redis.Redis(crawler.settings.get('REDIS_HOST', 'localhsot'), crawler.settings.get('REDIS_PORT', 6379)))
-        initIPPOOLS(self.rconn)
+        #initIPPOOLS(self.rconn)
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -49,8 +50,11 @@ class ProxyMiddleware(RetryMiddleware):
         #pdb.set_trace()
         ipNum=len(self.rconn.keys('IP*'))
         if ipNum<20:
-            initIPPOOLS(self.rconn)
-        if self.TIMES == 10:
+            proxy_thread = threading.Thread(target= initIPPOOLS,args = (self.rconn,))
+            proxy_thread.setDaemon(True)
+            proxy_thread.start()
+            #initIPPOOLS(self.rconn)
+        if self.TIMES >= 3:
             baseIP=random.choice(self.rconn.keys('IP:*'))
             ip=str(baseIP,'utf-8').replace('IP:','')
             try:
