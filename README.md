@@ -10,6 +10,15 @@
 ## 原文博客：[ZhihuSpider](http://blog.csdn.net/AlexTan_/article/details/77057068)
 ### v2.0版本已加上布隆过滤器，建议切换到2.0版本（已测试完毕）
 ### V-docker版本已上传，其他系统的朋友或者觉得装环境麻烦的朋友可以切换到docker版本
+
+
+## 更新日志：
+
+* 2017.08.17: v2.0版本 对scrapy_redis进行优化，修改了scrapy-redis的去重机制（加了布隆过滤器）。更新原因： v1.0版本运行两到三天就会把内存（16G的服务器）占满。 更新后，V2.0版本，运行3天，只会占大概2到3G内存（几乎不会增长）。
+
+* 2017.08.22: 对三个版本的 pipline 和 spider 两个文件都修改了一下。因为以前RelationItem插入mongo时，next的数据会随机插入到粉丝或者关注里，导致数据会发生错误。 现已修正。
+
+
 ## 前言：
 
 *在这里特别鸣谢: 九茶*  <http://blog.csdn.net/bone_ace>   Github: <https://github.com/LiuXingMing>
