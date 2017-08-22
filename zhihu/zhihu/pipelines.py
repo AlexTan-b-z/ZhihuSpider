@@ -49,14 +49,13 @@ class ZhihuPipeline(object):
         self.db.UserInfo.insert(dict(item))
 
     def _process_relation_item(self,item):
-<<<<<<< HEAD
-        #pdb.set_trace()
-=======
->>>>>>> 2dbf8198ae9fed683fa51370b499f68d4f35d25a
-        if item['relation_type'] == 'next':
-            for one in item['relations_id']:
-                self.db.Relation.update({'user_id':item['user_id']},{"$push":{'relations_id':one}})
-        else:
+        try:
+            isnext,relation_type = item['relation_type'].split(':')
+            if isnext == 'next':
+                for one in item['relations_id']:
+                    #pdb.set_trace()
+                    self.db.Relation.update({'user_id':item['user_id'],'relation_type':relation_type},{"$push":{'relations_id':one}})
+        except:
             self.db.Relation.insert(dict(item))
 
     def _process_answer_item(self,item):
