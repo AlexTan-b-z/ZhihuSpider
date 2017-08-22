@@ -49,6 +49,7 @@ MONGO_DATABASE = 'zhihu'
 DOWNLOADER_MIDDLEWARES = {
     'zhihu.middlewares.UserAgentMiddleware': 543,
     'zhihu.middlewares.CookiesMiddleware': 544,
+    #"scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware": 545,
     #'zhihu.middlewares.ProxyMiddleware':545,
 }
 
