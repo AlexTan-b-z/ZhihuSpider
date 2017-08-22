@@ -97,7 +97,7 @@ class Zhihuspider0Spider(RedisSpider):
         if response.meta['offset'] == 0:
             response.meta['item']['relation_type'] = response.meta['relation_type']
         else:
-            response.meta['item']['relation_type'] = 'next'
+            response.meta['item']['relation_type'] = 'next:' + response.meta['relation_type']
         #pdb.set_trace()
         yield response.meta['item']
         for one in response.meta['item']['relations_id']:
