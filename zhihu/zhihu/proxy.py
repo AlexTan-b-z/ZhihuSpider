@@ -42,7 +42,7 @@ def initIPPOOLS(rconn):
     else:
         logger.warning("The number of  the IP is %s!" % str(ipNum))
 
-def updateIPPOOLS(rconn,ip,status,flag=0):
+def updateIPPOOLS(rconn,ip,status,flag=0): # 0代表对status减一，-1代表减2，1代表加1
     if int(status) < 1:
         removeIPPOOLS(rconn,ip,status)
         return
