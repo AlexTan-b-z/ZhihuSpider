@@ -33,18 +33,38 @@ def initIPPOOLS(rconn):
             try:
                 ip=ipall.split(':')[0]
                 port=ipall.split(':')[1]
-                telnetlib.Telnet(ip,port=port,timeout=2)
+                telnetlib.Telnet(ip,port=port,timeout=2) #检验代理ip是否有效
             except:
-                print('ip无效！')
+                logger.warning("The ip is not available !( IP:%s )" % ipall)
             else:
-                print('ip:%s 有效，正在存入数据库...'%(ipall))
-                rconn.set("IP:%s"%(ipall),ipall)
+                logger.warning("Get ip Success!( IP:%s )" % ipall)
+                rconn.set("IP:%s:10"%(ipall),ipall)     #10 is status
     else:
-        print('当前数据库中的IP数量为:'+str(ipNum))
+        logger.warning("The number of  the IP is %s!" % str(ipNum))
 
+def updateIPPOOLS(rconn,ip,status,flag=0):
+    if int(status) < 1:
+        removeIPPOOLS(rconn,ip,status)
+        return
+    '''update status'''
+    if flag == 1: #+status
+        rconn.delete('IP:'+ ip + ':' + status)
+        status = int(status) + 1
+        rconn.set("IP:%s:%s"%(ip,str(status)),ip)
+    elif flag == -1:
+        rconn.delete('IP:'+ ip + ':' + status)
+        status = int(status) - 2
+        rconn.set("IP:%s:%s"%(ip,str(status)),ip)
+    else:
+        rconn.delete('IP:'+ ip + ':' + status)
+        status = int(status) - 1
+        rconn.set("IP:%s:%s"%(ip,str(status)),ip)
 
-def removeIPPOOLS(rconn,ip):
-    print('IP:%s 已失效,正在删除...'%(ip))
-    rconn.delete('IP:'+ip)
+def removeIPPOOLS(rconn,ip,status):
+    logger.error("IP:%s not available ! System is deleting" % ip)
+    try:
+        rconn.delete('IP:' + ip + ':' + status)
+    except:
+        pass
     ipNum=len(rconn.keys('IP*'))
-    print('当前数据库中剩下的IP数量为:'+str(ipNum))
+    logger.warning("The number of  the IP is %s!" % str(ipNum))
