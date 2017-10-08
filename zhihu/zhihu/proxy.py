@@ -1,6 +1,7 @@
 # encoding=utf-8
 import telnetlib
 import urllib
+import logging
 
 # ------------------------------------------
 #   版本：1.0
@@ -10,6 +11,7 @@ import urllib
 #   <e-mail: alextanbz@gmail.com>
 # ------------------------------------------
 
+logger = logging.getLogger(__name__)
 IPPOOLNUM=20 #一次性从网页获取的IP数量
 
 def GetIPPOOLS(num):
