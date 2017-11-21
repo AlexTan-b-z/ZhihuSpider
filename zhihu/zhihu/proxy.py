@@ -50,9 +50,10 @@ def updateIPPOOLS(rconn,ip,status,flag=0): # 0代表对status减一，-1代表�
         return
     '''update status'''
     if flag == 1: #+status
-        rconn.delete('IP:'+ ip + ':' + status)
-        status = int(status) + 1
-        rconn.set("IP:%s:%s"%(ip,str(status)),ip)
+        if int(status) < 10:
+            rconn.delete('IP:'+ ip + ':' + status)
+            status = int(status) + 1
+            rconn.set("IP:%s:%s"%(ip,str(status)),ip)
     elif flag == -1:
         rconn.delete('IP:'+ ip + ':' + status)
         status = int(status) - 2
