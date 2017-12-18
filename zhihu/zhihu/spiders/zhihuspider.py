@@ -36,7 +36,7 @@ class ZhihuspiderSpider(RedisSpider):
 
     def start_requests(self):
         for one in self.strat_user_id:
-            yield Request('https://www.zhihu.com/people/'+one+'/answers',callback=self.parse)
+            yield Request('https://www.zhihu.com/people/'+one+'/answers',callback=self.parse,dont_filter=True)
         #return [Request('https://www.zhihu.com/#signin',callback=self.start_login,meta={'cookiejar':1})] #这个登录已不可用，仅供学习
 
     def start_login(self,response):
