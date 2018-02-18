@@ -43,9 +43,9 @@ class ZhihuspiderSpider(RedisSpider):
         xsrf = response.xpath('//input[@name="_xsrf"]/@value').extract_first()
         return [FormRequest('https://www.zhihu.com/login/phone_num',method='POST',meta={'cookiejar':response.meta['cookiejar']},formdata={
                 #'_xsrf':xsrf,
-                'password':'feifengwind',
+                'password':'1111111',
                 'remember_me':"true",
-                'phone_num':'18983848805'},
+                'phone_num':'11111111'},
                 callback=self.after_login
                 )]
 
